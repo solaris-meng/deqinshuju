@@ -1,4 +1,8 @@
 
+Requirements:
+
+xlrd
+
 
 1.Models
 
