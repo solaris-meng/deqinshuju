@@ -1,0 +1,40 @@
+
+{% extends "index/base.html" %}
+{% load staticfiles %}
+
+{% block customcss %}
+<link type="text/css" rel="stylesheet" href="{% static 'index.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<!-- bg -->
+<section id="index-bg-con-con">
+    <div class="index-bg-container" id="index-bg">
+        <img src="{% static 'normal_haituo_2.jpg' %}" alt="slidebg1" data-bgposition="center center" data-bgrepeat="no-repeat">
+        <div class="index-bg-title-container">
+            <p>德勤数据平台</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block customjs %}
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var bg1 = document.getElementById("index-bg-con-con");
+        bg1.style.backgroundColor='red';
+        bg1.style.height=$(window).height()*0.8+'px';
+        bg1.style.width=$(window).width()+'px';
+
+        /*
+        var bg2 = document.getElementById("index-bg-con-con");
+        bg2.style.backgroundColor='red';
+        bg2.style.height=$(window).height()*0.7+'px';
+        bg2.style.width=$(window).width()+'px';
+        */
+
+        });
+</script>
+{% endblock %}
+

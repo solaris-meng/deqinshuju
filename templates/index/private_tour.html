@@ -1,0 +1,168 @@
+
+{% extends "index/base.html" %}
+{% load staticfiles %}
+
+{% block customcss %}
+<link type="text/css" rel="stylesheet" href="{% static 'index.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 private-tour-tl">
+                <p>Plan Your Unique Trip</p>
+            </div>
+            <div class="col-md-12">
+                <form action="/private_tour_handler/" class="form-horizontal private-tour-form" method="POST" id="sky-form">
+                {% csrf_token %}
+                    <div class="form-group">
+                        <label for="startcity" class="col-sm-2 control-label">Destinations</label>
+                        <div class="col-sm-10">
+                            <label class="checkbox-inline">
+                                <input name="des_beijing" type="checkbox" id="inlineCheckbox1" value="des_beijing">Beijing
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="des_shanghai" type="checkbox" id="inlineCheckbox1" value="des_shanghai">Shanghai
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="des_chengdu" type="checkbox" id="inlineCheckbox1" value="des_chengdu">Chengdu
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="des_guilin" type="checkbox" id="inlineCheckbox1" value="des_guilin">Guilin
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="des_xian" type="checkbox" id="inlineCheckbox1" value="des_xian">Xian (Silk Road)
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="des_luoyang" type="checkbox" id="inlineCheckbox1" value="des_luoyang">Luoyang (Silk Road)
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="des_dunhuang" type="checkbox" id="inlineCheckbox1" value="des_dunhuang">Dunhuang (Silk Road)
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="des_urumqi" type="checkbox" id="inlineCheckbox1" value="des_urumqi">Urumqi (Silk Road)
+                            </label>
+<!--
+                            <select class="form-control" name="des">
+                                <option>Beijing</option>
+                                <option>Shanghai</option>
+                                <option>Chengdu</option>
+                                <option>Guilin</option>
+                                <option>Tibet</option>
+                                <option>Xian (Silk Road)</option>
+                                <option>Dunhuang (Silk Road)</option>
+                            </select>
+-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="startcity" class="col-sm-2 control-label">Car</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="car">
+                                <option>Economy (4 Passengers, 2 Bags)</option>
+                                <option>Standard (4 Passengers, 3 Bags)</option>
+                                <option>Luxury (4 Passengers, 3 Bags)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="days" class="col-sm-2 control-label">Departure Date</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="days" name="departure"  placeholder="Start Date, mm/dd/yyyy">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="days" class="col-sm-2 control-label">Number of Nights</label>
+                        <div class="col-sm-10">
+                            <input name="nights" type="text" class="form-control" id="days" placeholder="Number of days">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="days" class="col-sm-2 control-label">Age Group of Adults</label>
+                        <div class="col-sm-10">
+                            <label class="checkbox-inline">
+                                <input name="age_18_39" type="checkbox" id="inlineCheckbox1" value="age1">18-39
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="age_40_50" type="checkbox" id="inlineCheckbox2" value="age22">40-50
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="age_51_65" type="checkbox" id="inlineCheckbox3" value="age3">51-65
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="age_65" type="checkbox" id="inlineCheckbox4" value="age4">65+
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="days" class="col-sm-2 control-label">Services Needed</label>
+                        <div class="col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input name="service_advise" type="checkbox" value="s1">
+                                        I would like my Travel Specialists to make sugguestions based on my interests
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="service_luxury" type="checkbox" value="s2">
+                                        Luxury Cruise
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="service_activity" type="checkbox" value="s3">
+                                        Activities, Tour Guides, Unique experiences
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="service_guide" type="checkbox" value="s4">
+                                        Tour Guides
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="service4" type="checkbox" value="s5">
+                                        Private Transfer, Pickup
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itinerary" class="col-sm-2 control-label">Itinerary</label>
+                        <div class="col-sm-10">
+                            <textarea name="itinerary" type="text" class="form-control" rows="8" id="itinerary" placeholder="Please provide the destinations you want, our guide will contact you later"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Your Name</label>
+                        <div class="col-sm-10">
+                            <input name="fname" type="text" class="form-control" id="inputEmail3" placeholder="First Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Your Email</label>
+                        <div class="col-sm-10">
+                            <input name="email" type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Your Country</label>
+                        <div class="col-sm-10">
+                            <input name="country" type="text" class="form-control" id="inputEmail3" placeholder="Your Country">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- end row -->
+    </div><!-- end container -->
+{% endblock %}
+
+<!--
+-->

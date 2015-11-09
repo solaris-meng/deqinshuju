@@ -1,0 +1,108 @@
+
+{% extends "index/base.html" %}
+{% load staticfiles %}
+
+{% block customcss %}
+<link type="text/css" rel="stylesheet" href="{% static 'data.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<!--=== Content Part ===-->    
+<div class="container margin-bottom-100">
+    <div class="row">
+        <div class="col-md-12 data-tl">
+            <p>数据录入</p>
+        </div>
+        {% for j in job %}
+        <div class="col-md-12">
+            <hr>
+            <div class="data_in_job_bu_men">
+                <p>{{ j.job_bu_men }}</p>
+            </div>
+            <form action="/data_in_handler" class="form-horizontal" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3 data_in_job_tl">
+                            <p>任务：</p>
+                        </div>
+                        <div class="col-sm-9 data_in_job_tl_info">
+                            <p>{{ j.job_name }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 data_in_job_it">
+                            <p>模版：</p>
+                        </div>
+                        <div class="col-sm-9 data_in_job_it_info">
+                            <a href='{{ j.get_file_path }}'>{{ j.job_file_name }}</a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 data_in_job_it">
+                            <p>状态：</p>
+                        </div>
+                        <div class="col-sm-9 data_in_job_it_info">
+                            <p>进行中－70%</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 data_in_job_it">
+                            <p>上传：</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <button class="btn btn-default btn-file">
+                                <input name="uploadfile" type="file"/>
+                            </button>
+                            <button class="btn btn-primary" type="submit" id="xinche-kpi-submit" >上传</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div><!-- end col-12 -->
+        {% endfor %}
+    </div><!-- end row -->
+</div><!-- end container -->
+
+<!--=== Content Part ===-->    
+{% endblock %}
+
+{% csrf_token %}
+{% block customjs %}
+<script type="text/javascript" src="{% static 'js.cookie.js' %}"></script>
+<!--
+<script type="text/javascript">
+    var csrftoken = Cookies.get('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    $('#xinche-kpi-submit').on('click', function xincheclick() {
+    //jQuery(document).ready(function() {
+        var name = 'meng';
+        $.ajax({
+            url: "/data_in_handler",
+            type: "POST",
+            data: name,
+            cache:false,
+            dataType: "json",
+            success: function(resp){
+                alert ("resp: "+resp.result);
+            }
+        });
+        alert('aa');
+    })
+</script>
+-->
+{% endblock %}

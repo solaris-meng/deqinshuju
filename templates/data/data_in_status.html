@@ -1,0 +1,501 @@
+
+{% extends "index/base.html" %}
+{% load staticfiles %}
+
+{% block customcss %}
+<link type="text/css" rel="stylesheet" href="{% static 'data_status.css' %}"/>
+<script src="{% static 'Chart.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<!--=== Content Part ===-->    
+<div class="container-fluid margin-bottom-100">
+    <div class="row">
+        <div class="col-md-12 data-bumen-tl">
+            <p>新车部门</p>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="data-chart-title">
+                <p>展厅整体销售漏斗</p>
+            </div>
+            <div class="data-chart-title-nt">
+            <p>（月均值）</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+                <p>销售线索量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="xiaoshou_xiansuo">0</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+            <p>留档量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="liu_dang_liang">0</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+            <p>试驾量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="shi_jia_liang">0</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+            <p>订单量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="ding_dan_liang">0</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+            <p>交车量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="jiao_che_liang">0</p>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <canvas id="myChartN1" ></canvas>
+        </div>
+    </div><!-- end row -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr>
+        </div>
+        <div class="col-md-3">
+            <div class="data-chart-title">
+                <p>展厅电销销售漏斗</p>
+            </div>
+            <div class="data-chart-title-nt">
+            <p>（月均值）</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+                <p>销售线索量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="xiaoshou_xiansuo_n2">0</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+            <p>留档量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="liu_dang_liang_n2">0</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+            <p>试驾量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="shi_jia_liang_n2">0</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+            <p>订单量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="ding_dan_liang_n2">0</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+            <p>交车量</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="jiao_che_liang_n2">0</p>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <canvas id="myChartN2" ></canvas>
+        </div>
+    </div><!-- end row -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr>
+        </div>
+        <div class="col-md-3">
+            <div class="data-chart-title">
+                <p>销售线索渠道</p>
+            </div>
+            <div class="data-chart-title-nt">
+                <p>（月均值）</p>
+            </div>
+            <div class="row">
+            <div class="col-md-6 data-chart-it-tl">
+                <p>展厅销售（DCC潜客除外）</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="zhanting_xiaoshou_n4">0</p>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-6 data-chart-it-tl">
+                <p>展厅销售（DCC成交）</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="dcc_xiaoshou_n4">0</p>
+            </div>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+                <p>二网</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="er_wang_n4">0</p>
+            </div>
+            <div class="col-md-6 data-chart-it-tl">
+                <p>大客户</p>
+            </div>
+            <div class="col-md-6 data-chart-it-it">
+                <p id="da_ke_hu_n4">0</p>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <canvas id="myChartN4" ></canvas>
+        </div>
+    </div><!-- end row -->
+
+</div><!-- end container -->
+
+<!--=== Content Part ===-->    
+{% endblock %}
+
+{% csrf_token %}
+{% block customjs %}
+<script type="text/javascript" src="{% static 'js.cookie.js' %}"></script>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    
+    function getAvg(arr){
+        var avg=0;
+        for(var i=0;i<arr.length;i++){
+            avg+=arr[i];
+        }
+        avg/=i;
+        return parseInt(avg);
+    }
+
+    // N1
+    var mylabel = new Array();
+    {% for i in TableXincheZhantingXiaoshou %}
+        var s1 ='{{ i.date }}';
+        var s2 = s1.substr(0, 7);
+        mylabel.push(s2);
+    {% endfor %}
+    // for data
+    var xiaoshou_xiansuo = new Array();
+    var liu_dang_liang = new Array();
+    var shi_jia_liang = new Array();
+    var ding_dan_liang = new Array();
+    var jiao_che_liang = new Array();
+    {% for i in TableXincheZhantingXiaoshou %}
+        xiaoshou_xiansuo.push(isNaN(parseInt('{{ i.xiaoshou_xiansuo }}'))? 0 : parseInt('{{ i.xiaoshou_xiansuo }}'));
+        liu_dang_liang.push(isNaN(parseInt('{{ i.liu_dang_liang }}'))? 0 : parseInt('{{ i.liu_dang_liang }}'));
+        shi_jia_liang.push(isNaN(parseInt('{{ i.shi_jia_liang }}'))? 0 : parseInt('{{ i.shi_jia_liang }}'));
+        ding_dan_liang.push(isNaN(parseInt('{{ i.ding_dan_liang }}'))? 0 : parseInt('{{ i.ding_dan_liang }}'));
+        jiao_che_liang.push(isNaN(parseInt('{{ i.jiao_che_liang }}'))? 0 : parseInt('{{ i.jiao_che_liang }}'));
+    {% endfor %}
+    //alert(xiaoshou_xiansuo)
+    // set avg
+    $('#xiaoshou_xiansuo').text(getAvg(xiaoshou_xiansuo));
+    $('#liu_dang_liang').text(getAvg(liu_dang_liang));
+    $('#shi_jia_liang').text(getAvg(shi_jia_liang));
+    $('#ding_dan_liang').text(getAvg(ding_dan_liang));
+    $('#jiao_che_liang').text(getAvg(jiao_che_liang));
+    //alert(getAvg(xiaoshou_xiansuo));
+    
+    var data = {
+    //labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: mylabel,
+    datasets: [
+        {
+            label: "销售线索",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: xiaoshou_xiansuo
+        },
+        {
+            label: "留档量",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: liu_dang_liang
+        },
+        {
+            label: "试驾量",
+            fillColor: "rgba(207,135,114,0.2)",
+            strokeColor: "rgba(207,135,114,1)",
+            pointColor: "rgba(207,135,114,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(207,135,114,1)",
+            data: shi_jia_liang
+        },
+        {
+            label: "订单量",
+            fillColor: "rgba(170,121,104,0.2)",
+            strokeColor: "rgba(170,121,104,1)",
+            pointColor: "rgba(170,121,104,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(170,121,104,1)",
+            data: ding_dan_liang
+        },
+        {
+            label: "交车量",
+            fillColor: "rgba(164,189,142,0.2)",
+            strokeColor: "rgba(164,189,142,1)",
+            pointColor: "rgba(164,189,142,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(164,189,142,1)",
+            data: jiao_che_liang
+        }
+    ]
+    };
+    // Get context with jQuery - using jQuery's .get() method.
+    var ctx = $("#myChartN1").get(0).getContext("2d");
+    // This will get the first returned node in the jQuery collection.
+    //var myLineChart = new Chart(ctx).Line(data, options);
+    var options = {multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>", responsive: true}
+    var myLineChart = new Chart(ctx).Line(data, options);
+    //////END N1
+
+    // N2
+    var mylabel_n2 = new Array();
+    {% for i_n2 in TableXincheDianxiaoXiaoshou %}
+        var s1_n2 ='{{ i_n2.date }}';
+        var s2_n2 = s1_n2.substr(0, 7);
+        mylabel_n2.push(s2_n2);
+    {% endfor %}
+    alert(mylabel_n2);
+    // for data
+    var xiaoshou_xiansuo_n2 = new Array();
+    var liu_dang_liang_n2 = new Array();
+    var shi_jia_liang_n2 = new Array();
+    var ding_dan_liang_n2 = new Array();
+    var jiao_che_liang_n2 = new Array();
+    {% for i_n2 in TableXincheDianxiaoXiaoshou %}
+        xiaoshou_xiansuo_n2.push(isNaN(parseInt('{{ i_n2.xiaoshou_xiansuo }}'))? 0 : parseInt('{{ i_n2.xiaoshou_xiansuo }}'));
+        liu_dang_liang_n2.push(isNaN(parseInt('{{ i_n2.liu_dang_liang }}'))? 0 : parseInt('{{ i_n2.liu_dang_liang }}'));
+        shi_jia_liang_n2.push(isNaN(parseInt('{{ i_n2.shi_jia_liang }}'))? 0 : parseInt('{{ i_n2.shi_jia_liang }}'));
+        ding_dan_liang_n2.push(isNaN(parseInt('{{ i_n2.ding_dan_liang }}'))? 0 : parseInt('{{ i_n2.ding_dan_liang }}'));
+        jiao_che_liang_n2.push(isNaN(parseInt('{{ i_n2.jiao_che_liang }}'))? 0 : parseInt('{{ i_n2.jiao_che_liang }}'));
+    {% endfor %}
+    //alert(xiaoshou_xiansuo_n2)
+    // set avg
+    $('#xiaoshou_xiansuo_n2').text(getAvg(xiaoshou_xiansuo_n2));
+    $('#liu_dang_liang_n2').text(getAvg(liu_dang_liang_n2));
+    $('#shi_jia_liang_n2').text(getAvg(shi_jia_liang_n2));
+    $('#ding_dan_liang_n2').text(getAvg(ding_dan_liang_n2));
+    $('#jiao_che_liang_n2').text(getAvg(jiao_che_liang_n2));
+    //alert(getAvg(xiaoshou_xiansuo));
+    
+    var data_n2 = {
+    //labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: mylabel_n2,
+    datasets: [
+        {
+            label: "销售线索",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: xiaoshou_xiansuo_n2
+        },
+        {
+            label: "留档量",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: liu_dang_liang_n2
+        },
+        {
+            label: "试驾量",
+            fillColor: "rgba(207,135,114,0.2)",
+            strokeColor: "rgba(207,135,114,1)",
+            pointColor: "rgba(207,135,114,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(207,135,114,1)",
+            data: shi_jia_liang_n2
+        },
+        {
+            label: "订单量",
+            fillColor: "rgba(170,121,104,0.2)",
+            strokeColor: "rgba(170,121,104,1)",
+            pointColor: "rgba(170,121,104,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(170,121,104,1)",
+            data: ding_dan_liang_n2
+        },
+        {
+            label: "交车量",
+            fillColor: "rgba(164,189,142,0.2)",
+            strokeColor: "rgba(164,189,142,1)",
+            pointColor: "rgba(164,189,142,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(164,189,142,1)",
+            data: jiao_che_liang_n2
+        }
+    ]
+    };
+    // Get context with jQuery - using jQuery's .get() method.
+    var ctx_n2 = $("#myChartN2").get(0).getContext("2d");
+    // This will get the first returned node in the jQuery collection.
+    //var myLineChart = new Chart(ctx).Line(data, options);
+    var options_n2 = {multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>", responsive: true}
+    var myLineChartN2 = new Chart(ctx_n2).Line(data_n2, options_n2);
+    //////END N1
+
+    // N4
+    var mylabel_n4 = new Array();
+    {% for i_n4 in TableXincheXiaoshouXiansuo %}
+        var s1_n4 ='{{ i_n4.date }}';
+        var s2_n4 = s1_n4.substr(0, 7);
+        mylabel_n4.push(s2_n4);
+    {% endfor %}
+    //alert(mylabel_n4);
+    // for data
+    var zhanting_xiaoshou_n4 = new Array();
+    var dcc_xiaoshou_n4 = new Array();
+    var er_wang_n4 = new Array();
+    var da_ke_hu_n4 = new Array();
+    {% for i_n4 in TableXincheXiaoshouXiansuo %}
+        zhanting_xiaoshou_n4.push(isNaN(parseInt('{{ i_n4.zhanting_xiaoshou }}'))? 0 : parseInt('{{ i_n4.zhanting_xiaoshou }}'));
+        dcc_xiaoshou_n4.push(isNaN(parseInt('{{ i_n4.dcc_xiaoshou }}'))? 0 : parseInt('{{ i_n4.dcc_xiaoshou }}'));
+        er_wang_n4.push(isNaN(parseInt('{{ i_n4.er_wang }}'))? 0 : parseInt('{{ i_n4.er_wang }}'));
+        da_ke_hu_n4.push(isNaN(parseInt('{{ i_n4.da_ke_hu }}'))? 0 : parseInt('{{ i_n4.da_ke_hu }}'));
+    {% endfor %}
+    //alert(xiaoshou_xiansuo_n2)
+    // set avg
+    $('#zhanting_xiaoshou_n4').text(getAvg(zhanting_xiaoshou_n4));
+    $('#dcc_xiaoshou_n4').text(getAvg(dcc_xiaoshou_n4));
+    $('#er_wang_n4').text(getAvg(er_wang_n4));
+    $('#da_ke_hu_n4').text(getAvg(da_ke_hu_n4));
+    //alert(getAvg(xiaoshou_xiansuo));
+    
+    var data_n4 = {
+    //labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: mylabel_n4,
+    datasets: [
+        {
+            label: "展厅销售(DCC潜客除外)",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: zhanting_xiaoshou_n4
+        },
+        {
+            label: "展厅销售(DCC成交)",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: dcc_xiaoshou_n4
+        },
+        {
+            label: "二网",
+            fillColor: "rgba(207,135,114,0.2)",
+            strokeColor: "rgba(207,135,114,1)",
+            pointColor: "rgba(207,135,114,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(207,135,114,1)",
+            data: er_wang_n4
+        },
+        {
+            label: "大客户",
+            fillColor: "rgba(170,121,104,0.2)",
+            strokeColor: "rgba(170,121,104,1)",
+            pointColor: "rgba(170,121,104,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(170,121,104,1)",
+            data: da_ke_hu_n4
+        },
+    ]
+    };
+    // Get context with jQuery - using jQuery's .get() method.
+    var ctx_n4 = $("#myChartN4").get(0).getContext("2d");
+    // This will get the first returned node in the jQuery collection.
+    //var myLineChart = new Chart(ctx).Line(data, options);
+    var options_n4 = {multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>", responsive: true}
+    var myLineChartN4 = new Chart(ctx_n4).Line(data_n4, options_n4);
+    //////END N1
+});
+</script>
+
+<script type="text/javascript">
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+    $('form').submit(function(e) {    
+        var formData = new FormData($(this)[0]); 
+        var action_str = $(this).attr('action');
+        //alert('submit form:'+action_str);
+
+        $.ajax({
+            url: action_str,
+            data: formData,
+            cache: false,
+            async: false,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            //Ajax events
+            success: function(data) {
+                alert('success');
+            }
+        });
+        e.preventDefault();
+    });
+
+</script>
+{% endblock %}
