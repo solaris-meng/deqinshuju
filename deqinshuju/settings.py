@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'index',
     'job',
     'data',
+    'dqadmin',
 )
 
 MIDDLEWARE_CLASSES = (

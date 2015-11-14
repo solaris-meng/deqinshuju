@@ -1,0 +1,123 @@
+
+{% extends "index/base.html" %}
+{% load staticfiles %}
+
+{% block customcss %}
+<link type="text/css" rel="stylesheet" href="{% static 'data.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<!--=== Content Part ===-->    
+<div class="container margin-bottom-100">
+    <div class="row">
+        <div class="col-md-12 data-tl">
+            <p>正在进行的任务</p>
+        </div>
+        {% for j in job %}
+        <div class="col-md-12">
+            <hr>
+            <div class="data_in_job_bu_men">
+                <p>{{ j.job_bu_men }}</p>
+            </div>
+            <form id="mengf" action="/data_in_handler/{{ j.job_id }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3 data_in_job_tl">
+                            <p>任务：</p>
+                        </div>
+                        <div class="col-sm-9 data_in_job_tl_info">
+                            <p>{{ j.job_name }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 data_in_job_it">
+                            <p>模版：</p>
+                        </div>
+                        <div class="col-sm-9 data_in_job_it_info">
+                            <a href='{{ j.get_file_path }}'>{{ j.job_file_name }}</a>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div><!-- end col-12 -->
+        {% endfor %}
+    </div><!-- end row -->
+</div><!-- end container -->
+
+<!--=== Content Part ===-->    
+{% endblock %}
+
+{% csrf_token %}
+{% block customjs %}
+<script type="text/javascript" src="{% static 'js.cookie.js' %}"></script>
+
+<script type="text/javascript">
+$(':file').change(function(){
+    var file = this.files[0];
+    var name = file.name;
+    var size = file.size;
+    var type = file.type;
+    //Your validation
+    //alert('file name'+name);
+});
+</script>
+
+<script type="text/javascript">
+
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+    $('form').submit(function(e) {    
+        var formData = new FormData($(this)[0]); 
+        var action_str = $(this).attr('action');
+        //alert('submit form:'+action_str);
+
+        $.ajax({
+            url: action_str,
+            data: formData,
+            cache: false,
+            async: false,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            //Ajax events
+            success: function(data) {
+                alert(data['result']);
+            }
+        });
+        e.preventDefault();
+    });
+
+</script>
+{% endblock %}

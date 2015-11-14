@@ -24,7 +24,12 @@ from django.conf.urls.static import static
 from index.views import index_view
 from index.views import register_view,register_handler_view
 from index.views import login_view,logout_view,login_handler_view
+
+# for data
 import data.views
+
+# for dqadmin
+import dqadmin.views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -38,9 +43,16 @@ urlpatterns = [
     url(r'^login_handler$', login_handler_view, name='login_handler'),
 
     # data
-    url(r'^data_in$', data.views.data_in_view, name='data_in'),
+    #url(r'^data_in$', data.views.data_in_view, name='data_in'),
+    url(r'^data_in/(?P<bu_men>[\w\W]+)$', data.views.data_in_view, name='data_in_view'),
     url(r'^data_in_handler/(?P<job_id>[\w\W]+)$', data.views.data_in_handler, name='data_in_handler'),
     url(r'^data_in_status/(?P<bu_men>[\w\W]+)$', data.views.data_in_status_view, name='data_in_status'),
+
+    # dqadmin
+    url(r'^dqadmin/job_in_process$', dqadmin.views.job_in_process, name='job_in_process'),
+    url(r'^dqadmin/database/compare$', dqadmin.views.db_compare_view, name='db_compare_view'),
+    url(r'^dqadmin/database/table$', dqadmin.views.db_get_table, name='db_get_table'),
+    url(r'^dqadmin/database/(?P<table_name>[\w\W]+)$$', dqadmin.views.db_view, name='db_view'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

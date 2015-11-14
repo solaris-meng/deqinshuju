@@ -31,12 +31,24 @@ html, body {
 .nav-index .navbar-brand{
     color: white;
 }
+.nav-index .navbar-brand:hover{
+    color: rgba(255,255,255,0.5);
+}
+
 .nav-index .index-nav-it .dropdown .dropdown-menu{
     background-color: rgba(68,68,68,1);
+}
+.nav-index .index-nav-it .dropdown .dropdown-menu li a:hover{
+    background-color: rgba(68,68,68,1);
+    color: rgba(255,255,255,0.5);
 }
 .nav-index .index-nav-it li a {
     font-size: 25px;
     color: white;
+}
+.nav-index .index-nav-it li a:hover {
+    font-size: 25px;
+    color: rgba(255,255,255,0.5);
 }
 .nav-brand {
     font-size: 30px;

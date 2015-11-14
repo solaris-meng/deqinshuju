@@ -54,7 +54,7 @@ class UploadFile(models.Model):
         return self.uploadfile.name
 
 class TableXincheZhantingXiaoshou(models.Model):
-    date = models.DateTimeField(primary_key=True)
+    date = models.DateTimeField(primary_key=False)
     xiaoshou_xiansuo = models.CharField(max_length=32, default='tmp')
     liu_dang_liang = models.CharField(max_length=32, default='tmp')
     shi_jia_liang = models.CharField(max_length=32, default='tmp')
@@ -62,6 +62,7 @@ class TableXincheZhantingXiaoshou(models.Model):
     jiao_che_liang = models.CharField(max_length=32, default='tmp')
 
     user = models.ForeignKey(User, null=True)
+    username = models.CharField(max_length=32, default='test')
     job = models.ForeignKey(Job, null=True)
 
     new_created = models.DateTimeField(null=True, auto_now_add=True)
@@ -72,7 +73,7 @@ class TableXincheZhantingXiaoshou(models.Model):
         return u'新车展厅销售'
 
 class TableXincheDianxiaoXiaoshou(models.Model):
-    date = models.DateTimeField(primary_key=True)
+    date = models.DateTimeField(primary_key=False)
     xiaoshou_xiansuo = models.CharField(max_length=32, default='tmp')
     liu_dang_liang = models.CharField(max_length=32, default='tmp')
     shi_jia_liang = models.CharField(max_length=32, default='tmp')
@@ -80,6 +81,7 @@ class TableXincheDianxiaoXiaoshou(models.Model):
     jiao_che_liang = models.CharField(max_length=32, default='tmp')
 
     user = models.ForeignKey(User, null=True)
+    username = models.CharField(max_length=32, default='test')
     job = models.ForeignKey(Job, null=True)
 
     new_created = models.DateTimeField(null=True, auto_now_add=True)
@@ -88,14 +90,70 @@ class TableXincheDianxiaoXiaoshou(models.Model):
     def __unicode__(self):
         #return self.file_type
         return u'新车电销销售'
+class TableXincheXiansuoLaiyuan(models.Model):
+    date = models.CharField(max_length=64, default='tmp date')
+    ziran_daodian = models.CharField(max_length=32, default='tmp')
+    dcc = models.CharField(max_length=32, default='tmp')
+    waibu_tuozhan = models.CharField(max_length=32, default='tmp')
+    qita = models.CharField(max_length=32, default='tmp')
+
+    user = models.ForeignKey(User, null=True)
+    username = models.CharField(max_length=32, default='test')
+    job = models.ForeignKey(Job, null=True)
+
+    new_created = models.DateTimeField(null=True, auto_now_add=True)
+    last_modified = models.DateTimeField(null=True, auto_now=True)
+
+    def __unicode__(self):
+        #return self.file_type
+        return u'线索来源分析'
 class TableXincheXiaoshouXiansuo(models.Model):
-    date = models.DateTimeField(primary_key=True)
+    date = models.DateTimeField(primary_key=False)
     zhanting_xiaoshou = models.CharField(max_length=32, default='tmp')
     dcc_xiaoshou = models.CharField(max_length=32, default='tmp')
     er_wang = models.CharField(max_length=32, default='tmp')
     da_ke_hu = models.CharField(max_length=32, default='tmp')
 
     user = models.ForeignKey(User, null=True)
+    username = models.CharField(max_length=32, default='test')
+    job = models.ForeignKey(Job, null=True)
+
+    new_created = models.DateTimeField(null=True, auto_now_add=True)
+    last_modified = models.DateTimeField(null=True, auto_now=True)
+
+    def __unicode__(self):
+        #return self.file_type
+        return u'销售线索渠道'
+class TableXincheKulingTongji(models.Model):
+    date = models.CharField(max_length=64, default='tmp date')
+    kl_0_30 = models.CharField(max_length=32, default='tmp')
+    kl_30_60 = models.CharField(max_length=32, default='tmp')
+    kl_60_90 = models.CharField(max_length=32, default='tmp')
+    kl_90_120 = models.CharField(max_length=32, default='tmp')
+    kl_120_150 = models.CharField(max_length=32, default='tmp')
+    kl_150_180 = models.CharField(max_length=32, default='tmp')
+    kl_180_270 = models.CharField(max_length=32, default='tmp')
+    kl_270_360 = models.CharField(max_length=32, default='tmp')
+    kl_360_0 = models.CharField(max_length=32, default='tmp')
+
+    user = models.ForeignKey(User, null=True)
+    username = models.CharField(max_length=32, default='test')
+    job = models.ForeignKey(Job, null=True)
+
+    new_created = models.DateTimeField(null=True, auto_now_add=True)
+    last_modified = models.DateTimeField(null=True, auto_now=True)
+
+    def __unicode__(self):
+        #return self.file_type
+        return u'库龄统计'
+class TableXincheShangwuZhengce(models.Model):
+    date = models.CharField(max_length=64, default='tmp date')
+    shangwu_zhengce = models.CharField(max_length=32, default='tmp')
+    shiji_xiaoliang = models.CharField(max_length=32, default='tmp')
+    wan_cheng_lv = models.CharField(max_length=32, default='tmp')
+
+    user = models.ForeignKey(User, null=True)
+    username = models.CharField(max_length=32, default='test')
     job = models.ForeignKey(Job, null=True)
 
     new_created = models.DateTimeField(null=True, auto_now_add=True)

@@ -13,8 +13,25 @@
 <div class="container-fluid margin-bottom-100">
     <div class="row">
         <div class="col-md-12 data-bumen-tl">
-            <p>新车部门</p>
+            <p>{{ bu_men }}</p>
             <hr>
+        </div>
+        <div class="col-md-6 data-head-tl">
+            <p>数据来源 :</p>
+        </div>
+        <div class="col-md-6 data-head-it">
+            <p>{{ user }}</p>
+        </div>
+        <div class="col-md-6 data-head-tl">
+            <p>统计数据 :</p>
+        </div>
+        <div class="col-md-6 data-head-it">
+        {% for i in sheets %}
+            <p>{{ i }}</p>
+        {% endfor %}
+        </div>
+        <div class="col-md-12 data-bumen-tl">
+        <hr>
         </div>
     </div>
 
@@ -275,7 +292,7 @@ jQuery(document).ready(function() {
         var s2_n2 = s1_n2.substr(0, 7);
         mylabel_n2.push(s2_n2);
     {% endfor %}
-    alert(mylabel_n2);
+    //alert(mylabel_n2);
     // for data
     var xiaoshou_xiansuo_n2 = new Array();
     var liu_dang_liang_n2 = new Array();

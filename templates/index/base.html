@@ -40,10 +40,20 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right index-nav-it">
         <li><a href="/">首页</a></li>
-        <li><a href="/data_in">数据录入</a></li>
 
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">数据库<span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">数据录入<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+               <li><a href="/data_in/xin_che">新车部门</a></li>
+               <li><a href="/data_in/er_shou_che">二手车部门</a></li>
+               <li><a href="/data_in/bei_jian">备件部门</a></li>
+               <li><a href="/data_in/jin_rong">金融保险部门</a></li>
+               <li><a href="/data_in/shou_hou">售后部门</a></li>
+            </ul>
+        </li>
+
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">录入进度<span class="caret"></span></a>
             <ul class="dropdown-menu">
                <li><a href="/data_in_status/xin_che">新车部门</a></li>
                <li><a href="/data_in_status/er_shou_che">二手车部门</a></li>
@@ -53,6 +63,15 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
             </ul>
         </li>
 
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理员<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+               <li><a href="/dqadmin/database/xinche_dianxiao_xiaoshou">数据库</a></li>
+               <li><a href="/dqadmin/database/compare">数据对标</a></li>
+               <li><a href="/dqadmin/job_in_process">正在进行的任务</a></li>
+               <li><a href="/dqadmin/xin_che">已经完成的任务</a></li>
+            </ul>
+        </li>
 
         {% if user.is_authenticated %}
             <li class="dropdown">

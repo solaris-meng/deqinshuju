@@ -1,0 +1,190 @@
+
+{% extends "index/base.html" %}
+{% load staticfiles %}
+
+{% block customcss %}
+<link type="text/css" rel="stylesheet" href="{% static 'dqadmin.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<!--=== Content Part ===-->    
+<div class="container margin-bottom-100">
+    <div class="row">
+        <div class="col-md-12 dqadmin-tl">
+            <p>数据库</p>
+            <hr>
+        </div>
+        <div class="col-md-12 dqadmin-config-tl">
+            <p>请选择要查询的表单</p>
+        </div><!-- end col-12 -->
+    </div>
+
+    <form id="mengf" action="/dqadmin/database/table" class="form-horizontal" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3 dqadmin-config-it">
+                    <p>部门 :</p>
+                </div>
+                <div class="col-md-9 dqadmin-config-it2">
+                    <select class="form-control" name='bumen'>
+                        <option>新车部门</option>
+                        <option>二手车部门</option>
+                        <option>金融保险部门</option>
+                        <option>售后部门</option>
+                        <option>备件部门</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 dqadmin-config-it">
+                    <p>用户 :</p>
+                </div>
+                <div class="col-md-9 dqadmin-config-it2">
+                    <select class="form-control" name='username'>
+                        <option>全部用户</option>
+                        <option>admin</option>
+                        <option>金融保险部门</option>
+                        <option>售后部门</option>
+                        <option>备件部门</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 dqadmin-config-it">
+                    <p>数据库表 :</p>
+                </div>
+                <div class="col-md-9 dqadmin-config-it2">
+                    <select class="form-control" name='tablename'>
+                        <option>展厅销售漏斗</option>
+                        <option>电销销售漏斗</option>
+                        <option>销售线索渠道</option>
+                        <option>线索来源分析</option>
+                        <option>库龄统计</option>
+                        <option>核心KPI</option>
+                        <option>商务政策完成度</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 dqadmin-config-btn">
+                    <button class="btn btn-primary" type="submit">查询</button>
+                    <hr>
+                </div><!-- end col-12 -->
+            </div><!-- end row -->
+
+        </div><!-- end form-group -->
+    </form>
+
+
+
+</div><!-- end container -->
+
+<div id='meng'></div>
+<div class="container-fuild">
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover">
+                <tr>
+                {% for tl in tabletl %}
+                    <th>{{ tl }}</th>
+                {% endfor %}
+                </tr>
+
+                {% if type == 'xinche_dianxiao_xiaoshou' %}
+                    {% for it in db %}
+                        <tr>
+                            <td>{{ it.date }}</td>
+                            <td>{{ it.user }}</td>
+                            <td>{{ it.xiaoshou_xiansuo }}</td>
+                            <td>{{ it.liu_dang_liang }}</td>
+                            <td>{{ it.shi_jia_liang }}</td>
+                            <td>{{ it.ding_dan_liang }}</td>
+                            <td>{{ it.jiao_che_liang }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--=== Content Part ===-->    
+{% endblock %}
+
+{% csrf_token %}
+{% block customjs %}
+<script type="text/javascript" src="{% static 'js.cookie.js' %}"></script>
+
+<script type="text/javascript">
+$(':file').change(function(){
+    var file = this.files[0];
+    var name = file.name;
+    var size = file.size;
+    var type = file.type;
+    //Your validation
+    //alert('file name'+name);
+});
+</script>
+
+<script type="text/javascript">
+
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+    $('form').submit(function(e) {    
+        var formData = new FormData($(this)[0]); 
+        var action_str = $(this).attr('action');
+        //alert('submit form:'+action_str);
+
+        $.ajax({
+            url: action_str,
+            data: formData,
+            cache: false,
+            async: false,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            //Ajax events
+            success: function(data) {
+                $('#meng').append(data);
+                //alert(data);
+                //alert(data['result']);
+            }
+        });
+        e.preventDefault();
+    });
+
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+
+.dqadmin-tl p{
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.dqadmin-config-tl p{
+    font-size: 20px;
+    text-align: left;
+    font-weight: bold;
+}
+.dqadmin-config-it p{
+    font-size: 20px;
+    text-align: right;
+    font-weight: bold;
+}
+.dqadmin-config-it2 p{
+    font-size: 20px;
+    text-align: left;
+    font-weight: bold;
+}
+.dqadmin-config-btn {
+    margin-top: 30px;
+    text-align: center;
+}

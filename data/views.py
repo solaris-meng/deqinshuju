@@ -6,16 +6,17 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 from django.template import RequestContext, loader
+from django.contrib.auth.models import User
 
 import json
 import traceback
 from uuid import uuid4
 
 from .forms import UploadFileForm
-from .models import UploadFile
-from .models import TableXincheZhantingXiaoshou
-from .models import TableXincheDianxiaoXiaoshou
-from .models import TableXincheXiaoshouXiansuo
+from .models import *
+#from .models import TableXincheZhantingXiaoshou
+#from .models import TableXincheDianxiaoXiaoshou
+#from .models import TableXincheXiaoshouXiansuo
 from .config import *
 from .filehandler import XincheFileHandler
 
@@ -23,11 +24,23 @@ from job.models import Job
 
 
 # Create your views here.
-def data_in_view(request):
+def data_in_view(request, bu_men):
     flog.info("PV, data-in, ")
-    #form = UploadFileForm
+
     ctx = {}
+    if not request.user.is_authenticated():
+        ctx['result'] = 'not authenticated'
+        context = RequestContext(request, ctx)
+        template = loader.get_template('index/user_invalid.html')
+        return HttpResponse(template.render(context))
+
+    # temp
+    if bu_men != 'xin_che':
+        return HttpResponse('开发中')
+
+    #form = UploadFileForm
     ctx['job'] = Job.objects.all()
+    ctx['bu_men'] = bu_men
     context = RequestContext(request, ctx)
     template = loader.get_template('data/data_in.html')
     return HttpResponse(template.render(context))
@@ -104,11 +117,20 @@ def data_in_status_view(request, bu_men):
     flog.info("PV, data-in-status, ")
     #form = UploadFileForm
     ctx = {}
+    if not request.user.is_authenticated():
+        ctx['result'] = 'not authenticated'
+        context = RequestContext(request, ctx)
+        template = loader.get_template('index/user_invalid.html')
+        return HttpResponse(template.render(context))
 
+    #user = User.objects.get(username='admin')
+    #ctx['TableXincheZhantingXiaoshou'] = TableXincheZhantingXiaoshou.objects.filter(user=user)
     if bu_men == 'xin_che':
-        ctx['TableXincheZhantingXiaoshou'] = TableXincheZhantingXiaoshou.objects.all()
-        ctx['TableXincheDianxiaoXiaoshou'] = TableXincheDianxiaoXiaoshou.objects.all()
-        ctx['TableXincheXiaoshouXiansuo'] = TableXincheXiaoshouXiansuo.objects.all()
+        ctx['TableXincheZhantingXiaoshou'] = TableXincheZhantingXiaoshou.objects.filter(user=request.user)
+        ctx['TableXincheDianxiaoXiaoshou'] = TableXincheDianxiaoXiaoshou.objects.filter(user=request.user)
+        ctx['TableXincheXiaoshouXiansuo'] = TableXincheXiaoshouXiansuo.objects.filter(user=request.user)
+        ctx['bu_men'] = '新车部门'
+        ctx['sheets'] = ['展厅整体销售漏斗','展厅电销销售漏斗','销售线索渠道','线索来源分析','库龄统计','核心KPI','商务政策完成度']
         template = loader.get_template('data/data_in_status.html')
     else:
         return HttpResponse('Error')
