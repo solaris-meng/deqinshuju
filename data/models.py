@@ -41,7 +41,6 @@ class UploadFile(models.Model):
     def init_info(self, bu_men):
         user_name = self.user.username
         self.last_modified = timezone.now()
-        print bu_men
         self.bu_men = unicode(bu_men)
         return 'success'
 
