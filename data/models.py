@@ -29,7 +29,7 @@ class UploadFile(models.Model):
     uploadfile = models.FileField(upload_to=update_filename)
     user = models.ForeignKey(User,null=True)
     upload_id = models.CharField(max_length=256, default='tmp')
-    bu_men = models.CharField(max_length=256, default='tmp')
+    bu_men = models.CharField(max_length=256, default='新车部门')
     file_type = models.CharField(max_length=256, default='tmp')
 
     # the auto updated
@@ -41,7 +41,7 @@ class UploadFile(models.Model):
     def init_info(self, bu_men):
         user_name = self.user.username
         self.last_modified = timezone.now()
-        self.bu_men = unicode(bu_men)
+        self.bu_men = bu_men
         return 'success'
 
     def get_abs(self):

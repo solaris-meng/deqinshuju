@@ -55,10 +55,12 @@ def data_in_handler(request, job_id):
             #print request.POST
             #print request.FILES
             flog.info('Upload File, User-%s, Job_id:%s File:' % (request.user.username, job_id))
+            flog.info('Get file 1')
             flog.info(request.FILES)
 
             # Step 1, get the Job per the job_id
             job = Job.objects.get(job_id=job_id)
+            flog.info('Get file 2')
             #print 'Job-Bumen: %s' % job.job_bu_men
 
             # Step 2, save the uploaded file to fs
@@ -70,6 +72,8 @@ def data_in_handler(request, job_id):
             new_upload_file = UploadFile(uploadfile = request.FILES['uploadfile'],
                                 user=request.user,
                                 upload_id=uuid4().hex)
+            flog.info('Get file ')
+            flog.info(type(job.job_bu_men))
             re = new_upload_file.init_info(job.job_bu_men)
             if re != 'success':
                 rv_dic['result'] = 'Err: fail to upload'
