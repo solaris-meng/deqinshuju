@@ -42,6 +42,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
       <ul class="nav navbar-nav navbar-right index-nav-it">
         <li><a href="/">首页</a></li>
 
+        {% if perms.data.add_uploadfile %}
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">数据录入<span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -68,7 +69,9 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
 -->
         <!-- For normal user -->
         <li><a href="/dqadmin/excel_user">录入进度</a></li>
+        {% endif %}
 
+        {% if perms.job.add_job %}
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">德勤管理员<span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -77,9 +80,12 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                <li><a href="/dqadmin/database/xinche_dianxiao_xiaoshou">数据库</a></li>
             </ul>
         </li>
+        {% endif %}
 
+        {% if user.groups.all.0.name == 'coadmin' %}
         <!-- company admin -->
         <li><a href="/dqadmin/daodian_company">厂家管理员</a></li>
+        {% endif %}
 
         {% if user.is_authenticated %}
             <li class="dropdown">

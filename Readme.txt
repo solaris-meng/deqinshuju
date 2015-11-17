@@ -4,13 +4,15 @@ xlrd
 
 
 用户权限
-*普通用户
+*普通用户-normal
+    -perm-data-add-uploadfile
     -上传excel文件，下载excel文件
     -查看自己的上传进度
-*普通管理员
+*德勤管理员-dqadmin
+    -perm-job-can-add-job
     -查看每个用户的上传情况
     -查看数据库
-*厂家管理员
+*厂家管理员-coadmin
     -只能查看最简单的上传进度
 *超级管理员
     -后台所有权限
