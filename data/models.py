@@ -10,7 +10,7 @@ from job.models import Job
 
 # Create your models here.
 def update_filename(instance, filename):
-    fpath = 'data/' + time.strftime("%Y/%m/")
+    fpath = 'data/' + time.strftime("%Y/%m/%d/")
     fname = instance.user.username + instance.upload_id + filename
     #fname = 'meng' + filename 
     return os.path.join(fpath, fname)
@@ -32,6 +32,8 @@ class UploadFile(models.Model):
     bu_men = models.CharField(max_length=256, default='新车部门')
     file_type = models.CharField(max_length=256, default='tmp')
 
+    job = models.ForeignKey(Job, null=True)
+
     # the auto updated
     last_modified = models.DateTimeField(null=True)
 
@@ -39,7 +41,7 @@ class UploadFile(models.Model):
     user_name = models.CharField(max_length=256, default='tmp')
 
     def init_info(self, bu_men):
-        user_name = self.user.username
+        self.user_name = self.user.username
         self.last_modified = timezone.now()
         self.bu_men = bu_men
         return 'success'
@@ -47,6 +49,21 @@ class UploadFile(models.Model):
     def get_abs(self):
         path = '%s/media/%s' % (settings.BASE_DIR, self.uploadfile)
         return path
+
+    def get_file_path(self):
+        #return os.path.basename(self.job_file.name)
+        local_path = self.uploadfile.path
+        idx = local_path.rindex('media')
+        return local_path[idx:]
+
+    def get_ico_tl(self):
+        tm = self.last_modified
+        return tm.strftime("%Y.%m.%d")
+    def get_ico_note(self):
+        tm = self.last_modified
+        rv = '上传时间: %s' % tm.strftime("%Y-%m-%d %H:%M:%S")
+        return rv
+       
 
     def __unicode__(self):
         #return self.file_type

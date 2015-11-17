@@ -33,6 +33,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      <a class="navbar-brand nav-brand" href="/">Deloitte<span>.</span></a>
       <a class="navbar-brand nav-brand" href="/">德勤</a>
     </div>
 
@@ -49,9 +50,11 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                <li><a href="/data_in/bei_jian">备件部门</a></li>
                <li><a href="/data_in/jin_rong">金融保险部门</a></li>
                <li><a href="/data_in/shou_hou">售后部门</a></li>
+               <li><a href="/data_in/qi_ta">其他数据</a></li>
             </ul>
         </li>
 
+<!--
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">录入进度<span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -62,16 +65,21 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                <li><a href="/data_in_status/shou_hou">售后部门</a></li>
             </ul>
         </li>
+-->
+        <!-- For normal user -->
+        <li><a href="/dqadmin/excel_user">录入进度</a></li>
 
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理员<span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">德勤管理员<span class="caret"></span></a>
             <ul class="dropdown-menu">
+               <li><a href="/dqadmin/excel">数据采集表</a></li>
+               <li><a href="/dqadmin/daodian">到店状态</a></li>
                <li><a href="/dqadmin/database/xinche_dianxiao_xiaoshou">数据库</a></li>
-               <li><a href="/dqadmin/database/compare">数据对标</a></li>
-               <li><a href="/dqadmin/job_in_process">正在进行的任务</a></li>
-               <li><a href="/dqadmin/xin_che">已经完成的任务</a></li>
             </ul>
         </li>
+
+        <!-- company admin -->
+        <li><a href="/dqadmin/daodian_company">厂家管理员</a></li>
 
         {% if user.is_authenticated %}
             <li class="dropdown">

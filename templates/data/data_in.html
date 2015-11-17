@@ -32,15 +32,18 @@
                         </div>
                     </div>
 
+                    {% if j.job_bu_men != '其他数据' %}
                     <div class="row">
                         <div class="col-sm-3 data_in_job_it">
                             <p>模版：</p>
                         </div>
                         <div class="col-sm-9 data_in_job_it_info">
-                            <a href='{{ j.get_file_path }}'>{{ j.job_file_name }}</a>
+                            <a href='/{{ j.get_file_path }}'>{{ j.job_file_name }}</a>
                         </div>
                     </div>
+                    {% endif %}
 
+<!--
                     <div class="row">
                         <div class="col-sm-3 data_in_job_it">
                             <p>状态：</p>
@@ -50,6 +53,7 @@
                             <p>共有10张表，已经录入7张表</p>
                         </div>
                     </div>
+-->
 
                     <div class="row">
                         <div class="col-sm-3 data_in_job_it">

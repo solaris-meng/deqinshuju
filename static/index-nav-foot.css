@@ -21,10 +21,12 @@ html, body {
 
 .nav-index {
     margin: 0 0;
+/*
     background-color: rgb(12, 75, 51);
     background-color: rgb(237, 239, 237);
-    background-color: rgb(111, 84, 153);/* pink */
+    background-color: rgb(111, 84, 153);
     background-color: rgba(68,68,68,1);
+    border-color: rgba(68,68,68,1);
 */
     border: 0px;
     border-radius: 0px;
@@ -36,13 +38,15 @@ html, body {
     color: rgba(255,255,255,0.5);
 }
 
-.nav-index .index-nav-it .dropdown .dropdown-menu{
+/*
+.nav-index .index-nav-it .dropdown {
     background-color: rgba(68,68,68,1);
 }
 .nav-index .index-nav-it .dropdown .dropdown-menu li a:hover{
     background-color: rgba(68,68,68,1);
     color: rgba(255,255,255,0.5);
 }
+*/
 .nav-index .index-nav-it li a {
     font-size: 25px;
     color: white;

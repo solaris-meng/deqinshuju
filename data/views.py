@@ -35,11 +35,23 @@ def data_in_view(request, bu_men):
         return HttpResponse(template.render(context))
 
     # temp
-    if bu_men != 'xin_che':
-        return HttpResponse('开发中')
+    if bu_men == 'xin_che':
+        ctx['job'] = Job.objects.filter(job_bu_men='新车部门')
+    elif bu_men == 'er_shou_che':
+        ctx['job'] = Job.objects.filter(job_bu_men='二手车部门')
+    elif bu_men == 'bei_jian':
+        ctx['job'] = Job.objects.filter(job_bu_men='备件部门')
+    elif bu_men == 'shou_hou':
+        ctx['job'] = Job.objects.filter(job_bu_men='售后部门')
+    elif bu_men == 'jin_rong':
+        ctx['job'] = Job.objects.filter(job_bu_men='金融保险部门')
+    elif bu_men == 'qi_ta':
+        ctx['job'] = Job.objects.filter(job_bu_men='其他数据')
+    else:
+        return HttpResponse('Error input')
 
     #form = UploadFileForm
-    ctx['job'] = Job.objects.all()
+    #ctx['job'] = Job.objects.all()
     ctx['bu_men'] = bu_men
     context = RequestContext(request, ctx)
     template = loader.get_template('data/data_in.html')
@@ -71,7 +83,8 @@ def data_in_handler(request, job_id):
             #   3. save file to fs
             new_upload_file = UploadFile(uploadfile = request.FILES['uploadfile'],
                                 user=request.user,
-                                upload_id=uuid4().hex)
+                                upload_id=uuid4().hex,
+                                job=job)
             flog.info('Get file ')
             flog.info(type(job.job_bu_men))
             re = new_upload_file.init_info(job.job_bu_men)
@@ -97,9 +110,12 @@ def data_in_handler(request, job_id):
             #   N6-To do
             #   N7-To do
             # if Bu_men is xin_che
-            rv_dic = XincheFileHandler(fpath,
-                        user=request.user,
-                        job=job)
+            if job.job_bu_men == '新车部门':
+                rv_dic = XincheFileHandler(fpath,
+                            user=request.user,
+                            job=job)
+            else:
+                rv_dic = {'result':'上传成功'}
 
             #xml = request.FILES['uploadfile']
             #print xml

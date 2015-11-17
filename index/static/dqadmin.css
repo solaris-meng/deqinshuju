@@ -25,3 +25,38 @@
     margin-top: 30px;
     text-align: center;
 }
+
+/* excel */
+.dqadmin-it-tl {
+    font-size: 20px;
+    text-align: left;
+    font-weight: bold;
+}
+.dqadmin-excel-con img {
+    width: 100%;
+}
+.dqadmin-excel-con p {
+    width: 100%;
+}
+.dqadmin-info-tl p {
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+.dqadmin-info-tl-nt {
+    margin-top: 30px;
+}
+.dqadmin-info-tl-nt p {
+    font-size: 15px;
+    text-align: center;
+}
+
+/* daodian */
+.dqadmin-daodian-list {
+    text-align:left;
+    font-size: 20px;
+}
+.dqadmin-daodian-list label p{
+    text-align:left;
+    font-size: 20px;
+}

@@ -1,0 +1,165 @@
+
+{% extends "index/base.html" %}
+{% load staticfiles %}
+
+{% block customcss %}
+<link type="text/css" rel="stylesheet" href="{% static 'dqadmin.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<!--=== Content Part ===-->    
+<div class="container-fluid margin-bottom-100">
+    <div class="row">
+        <div class="col-md-12 dqadmin-tl">
+            <p>厂家管理员</p>
+        </div>
+    </div>
+</div><!-- end container -->
+
+<div id='meng'></div>
+<div class="container-fuild">
+    <div class="row">
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover">
+                <tr>
+                    <th>集团名</th>
+                    <th>店名</th>
+                    <th>第一轮进店</th>
+                    <th>第二轮进店</th>
+                    <th>第三轮进店</th>
+                    <th>第一轮数据提交进度</th>
+                    <th>第二轮数据提交进度</th>
+                    <th>第三数据提交进度</th>
+                </tr>
+
+                {% for u in users %}
+                <tr>
+                    <td>{{ u.jituanming }}</td>
+                    <td>{{ u.dianming }}</td>
+                    <td>
+                        {% if u.daodian_1 == '100%' %}
+                        <button type="button" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp</button>
+                        {% else %}
+                        <button type="button" class="btn btn-warning">&nbsp&nbsp&nbsp&nbsp</button>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if u.daodian_2 == '100%' %}
+                        <button type="button" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp</button>
+                        {% else %}
+                        <button type="button" class="btn btn-warning">&nbsp&nbsp&nbsp&nbsp</button>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if u.daodian_3 == '100%' %}
+                        <button type="button" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp</button>
+                        {% else %}
+                        <button type="button" class="btn btn-warning">&nbsp&nbsp&nbsp&nbsp</button>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{{ u.daodian_1 }};">
+                            {{ u.daodian_1 }}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{ u.daodian_2 }};">
+                            {{ u.daodian_2 }}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{ u.daodian_3 }};">
+                            {{ u.daodian_3 }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!--=== Content Part ===-->    
+{% endblock %}
+
+{% csrf_token %}
+{% block customjs %}
+<script type="text/javascript" src="{% static 'js.cookie.js' %}"></script>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    //alert('hello');
+});
+
+</script>
+
+<script type="text/javascript">
+
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+    $('form').submit(function(e) {    
+        var formData = new FormData($(this)[0]); 
+        var action_str = $(this).attr('action');
+        // clear before
+        //alert('submit form:'+action_str);
+
+
+        // Set the table content
+        $.ajax({
+            url: action_str,
+            data: formData,
+            cache: false,
+            async: false,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            //Ajax events
+            success: function(data) {
+                alert(data['result']);
+            }
+        });
+        e.preventDefault();
+    });
+
+</script>
+{% endblock %}

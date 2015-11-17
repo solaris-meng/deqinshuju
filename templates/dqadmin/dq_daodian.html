@@ -1,0 +1,181 @@
+
+{% extends "index/base.html" %}
+{% load staticfiles %}
+
+{% block customcss %}
+<link type="text/css" rel="stylesheet" href="{% static 'dqadmin.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<!--=== Content Part ===-->    
+<div class="container-fluid margin-bottom-100">
+    <div class="row">
+        <div class="col-md-12 dqadmin-tl">
+            <p>到店状态管理</p>
+        </div>
+    </div>
+</div><!-- end container -->
+
+<div id='meng'></div>
+<div class="container-fuild">
+    {% for u in users %}
+    <div class="row">
+        <hr>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-3">
+            <div class="col-md-6 dqadmin-info-tl">
+                <p>{{ u.jituanming }}</p>
+            </div>
+            <div class="col-md-6 dqadmin-info-tl">
+                <p>{{ u.dianming }}</p>
+            </div>
+            <div class="dqadmin-info-tl-nt">
+                <p>用户名: {{ u.username }}</p>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <form action="/dqadmin/daodian_handler/{{ u.username }}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 dqadmin-daodian-list">
+                            <div class="checkbox">
+                                {% if u.daodian_1 == '0%' %}
+                                <label>
+                                    <input type="checkbox" name="daodian_1_tl" value='select'>
+                                    第一轮进店
+                                </label>
+                                <label class="control-label">提交进度</label>
+                                <input name="daodian_1_value" type="text" value="0%">
+                                {% else %}
+                                <label>
+                                    <input type="checkbox" name="daodian_1_tl" value="select" checked='true'>
+                                    第一轮进店
+                                </label>
+                                <label class="control-label">提交进度</label>
+                                <input type="text" name="daodian_1_value" value="{{u.daodian_1 }}">
+                                {% endif %}
+                            </div>
+
+                            <div class="checkbox">
+                                {% if u.daodian_2 == '0%' %}
+                                <label>
+                                    <input type="checkbox" name="daodian_2_tl" value="select" >
+                                    第二轮进店
+                                </label>
+                                <label class="control-label">提交进度</label>
+                                <input name="daodian_2_value" type="text" value="0%">
+                                {% else %}
+                                <label>
+                                    <input type="checkbox" name="daodian_2_tl" value="select" checked='true'>
+                                    第二轮进店
+                                </label>
+                                <label class="control-label">提交进度</label>
+                                <input name="daodian_2_value" type="text" value="{{u.daodian_2 }}">
+                                {% endif %}
+                            </div>
+                            <div class="checkbox">
+                                {% if u.daodian_3 == '0%' %}
+                                <label>
+                                    <input type="checkbox" name="daodian_3_tl" value="select" >
+                                    第三轮进店
+                                </label>
+                                <label class="control-label">提交进度</label>
+                                <input name="daodian_3_value" type="text" value="0%">
+                                {% else %}
+                                <label>
+                                    <input type="checkbox" name="daodian_3_tl" value="select" checked='true'>
+                                    第三轮进店
+                                </label>
+                                <label class="control-label">提交进度</label>
+                                <input name="daodian_3_value" type="text" value="{{u.daodian_3 }}">
+                                {% endif %}
+                            </div>
+                            <button class="btn btn-primary" type="submit">保存</button>
+                        </div><!-- end col-md-12 -->
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+<!--=== Content Part ===-->    
+{% endblock %}
+
+{% csrf_token %}
+{% block customjs %}
+<script type="text/javascript" src="{% static 'js.cookie.js' %}"></script>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    //alert('hello');
+});
+
+</script>
+
+<script type="text/javascript">
+
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+    $('form').submit(function(e) {    
+        var formData = new FormData($(this)[0]); 
+        var action_str = $(this).attr('action');
+        // clear before
+        //alert('submit form:'+action_str);
+
+
+        // Set the table content
+        $.ajax({
+            url: action_str,
+            data: formData,
+            cache: false,
+            async: false,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            //Ajax events
+            success: function(data) {
+                alert(data['result']);
+            }
+        });
+        e.preventDefault();
+    });
+
+</script>
+{% endblock %}

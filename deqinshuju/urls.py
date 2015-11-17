@@ -49,10 +49,15 @@ urlpatterns = [
     url(r'^data_in_status/(?P<bu_men>[\w\W]+)$', data.views.data_in_status_view, name='data_in_status'),
 
     # dqadmin
+    url(r'^dqadmin/excel$', dqadmin.views.dq_excel_view, name='dq_excel'),
+    url(r'^dqadmin/excel_user$', dqadmin.views.dq_excel_user_view, name='dq_excel_user'),
+    url(r'^dqadmin/daodian$', dqadmin.views.dq_daodian_view, name='dq_daodian'),
+    url(r'^dqadmin/daodian_company$', dqadmin.views.dq_daodian_company_view, name='dq_daodian_company'),
+    url(r'^dqadmin/daodian_handler/(?P<username>[\w\W]+)$', dqadmin.views.dq_daodian_handler, name='dq_daodian_handler'),
     url(r'^dqadmin/job_in_process$', dqadmin.views.job_in_process, name='job_in_process'),
     url(r'^dqadmin/database/compare$', dqadmin.views.db_compare_view, name='db_compare_view'),
     url(r'^dqadmin/database/table$', dqadmin.views.db_get_table, name='db_get_table'),
-    url(r'^dqadmin/database/(?P<table_name>[\w\W]+)$$', dqadmin.views.db_view, name='db_view'),
+    url(r'^dqadmin/database/(?P<table_name>[\w\W]+)$', dqadmin.views.db_view, name='db_view'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

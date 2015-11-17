@@ -20,6 +20,7 @@ from job.models import Job
 
 # xinche table
 from data.models import *
+#from data.models import UploadFile
 
 # Create your views here.
 def job_in_process(request):
@@ -33,6 +34,168 @@ def job_in_process(request):
     ctx['job'] = Job.objects.all()
     context = RequestContext(request, ctx)
     return HttpResponse(template.render(context))
+
+def dq_excel_view(request):
+    ctx={}
+    if not request.user.is_authenticated():
+        ctx['result'] = 'not authenticated'
+        context = RequestContext(request, ctx)
+        template = loader.get_template('index/user_invalid.html')
+        return HttpResponse(template.render(context))
+
+    # get all users
+    users = User.objects.all()
+    admin = User.objects.get(username='admin')
+
+    user_result = []
+    # for every user, catch all related files
+    for user in users:
+        if user == admin:
+            continue
+        files = UploadFile.objects.filter(user=user)
+        print files
+        if files:
+            it = {}
+            it['username'] = user.username
+            it['jituanming'] = user.profile.jituanming
+            it['dianming'] = user.profile.dianming
+            #it['jituanming'] = user.UserProfile.jituanming
+            #it['dianming'] = user.UserProfile.dianming
+            it['file_xinche'] = UploadFile.objects.filter(user=user, bu_men='新车部门')
+            it['file_ershouche'] = UploadFile.objects.filter(user=user, bu_men='二手车部门')
+            it['file_beijian'] = UploadFile.objects.filter(user=user, bu_men='备件部门')
+            it['file_shouhou'] = UploadFile.objects.filter(user=user, bu_men='售后部门')
+            it['file_jinrong'] = UploadFile.objects.filter(user=user, bu_men='金融保险部门')
+            it['file_qita'] = UploadFile.objects.filter(user=user, bu_men='其他数据')
+            user_result.append(it)
+    ctx['all'] = user_result
+
+    template = loader.get_template('dqadmin/dq_excel.html')
+    ctx['uploadfile'] = UploadFile.objects.all()
+    context = RequestContext(request, ctx)
+    return HttpResponse(template.render(context))
+
+def dq_excel_user_view(request):
+    ctx={}
+    if not request.user.is_authenticated():
+        ctx['result'] = 'not authenticated'
+        context = RequestContext(request, ctx)
+        template = loader.get_template('index/user_invalid.html')
+        return HttpResponse(template.render(context))
+
+    # get all users
+    #users = User.objects.get(username=username)
+    user = request.user
+    #admin = User.objects.get(username='admin')
+
+    user_result = []
+    # for every user, catch all related files
+    files = UploadFile.objects.filter(user=user)
+    print files
+    if files:
+        it = {}
+        it['username'] = user.username
+        it['jituanming'] = user.profile.jituanming
+        it['dianming'] = user.profile.dianming
+        #it['jituanming'] = user.UserProfile.jituanming
+        #it['dianming'] = user.UserProfile.dianming
+        it['file_xinche'] = UploadFile.objects.filter(user=user, bu_men='新车部门')
+        it['file_ershouche'] = UploadFile.objects.filter(user=user, bu_men='二手车部门')
+        it['file_beijian'] = UploadFile.objects.filter(user=user, bu_men='备件部门')
+        it['file_shouhou'] = UploadFile.objects.filter(user=user, bu_men='售后部门')
+        it['file_jinrong'] = UploadFile.objects.filter(user=user, bu_men='金融保险部门')
+        it['file_qita'] = UploadFile.objects.filter(user=user, bu_men='其他数据')
+        user_result.append(it)
+    ctx['all'] = user_result
+
+    template = loader.get_template('dqadmin/dq_excel.html')
+    #ctx['uploadfile'] = UploadFile.objects.all()
+    context = RequestContext(request, ctx)
+    return HttpResponse(template.render(context))
+
+
+def dq_daodian_view(request):
+    ctx={}
+    if not request.user.is_authenticated():
+        ctx['result'] = 'not authenticated'
+        context = RequestContext(request, ctx)
+        template = loader.get_template('index/user_invalid.html')
+        return HttpResponse(template.render(context))
+
+    # get all users
+    users = User.objects.all()
+    admin = User.objects.get(username='admin')
+
+    user_result = []
+    for user in users:
+        if user == admin:
+            continue
+        it = {}
+        it['username'] = user.username
+        it['jituanming'] = user.profile.jituanming
+        it['dianming'] = user.profile.dianming
+        it['daodian_1'] = user.profile.daodian_1
+        it['daodian_2'] = user.profile.daodian_2
+        it['daodian_3'] = user.profile.daodian_3
+        user_result.append(it)
+    ctx['users'] = user_result
+    template = loader.get_template('dqadmin/dq_daodian.html')
+    context = RequestContext(request, ctx)
+    return HttpResponse(template.render(context))
+
+def dq_daodian_company_view(request):
+    ctx={}
+    if not request.user.is_authenticated():
+        ctx['result'] = 'not authenticated'
+        context = RequestContext(request, ctx)
+        template = loader.get_template('index/user_invalid.html')
+        return HttpResponse(template.render(context))
+
+    # get all users
+    users = User.objects.all()
+    admin = User.objects.get(username='admin')
+
+    user_result = []
+    for user in users:
+        if user == admin:
+            continue
+        it = {}
+        it['username'] = user.username
+        it['jituanming'] = user.profile.jituanming
+        it['dianming'] = user.profile.dianming
+        it['daodian_1'] = user.profile.daodian_1
+        it['daodian_2'] = user.profile.daodian_2
+        it['daodian_3'] = user.profile.daodian_3
+        user_result.append(it)
+    ctx['users'] = user_result
+    template = loader.get_template('dqadmin/dq_daodian_company.html')
+    context = RequestContext(request, ctx)
+    return HttpResponse(template.render(context))
+
+def dq_daodian_handler(request, username):
+    rv_dict = {}
+    rv_dict['result'] = '保存失败'
+
+    if request.method == 'POST':
+        print request.POST
+        try:
+            user = User.objects.get(username=username)
+            user.profile.daodian_1 = request.POST['daodian_1_value']
+            user.profile.daodian_2 = request.POST['daodian_2_value']
+            user.profile.daodian_3 = request.POST['daodian_3_value']
+            #print user.profile.daodian_1,user.profile.daodian_2,user.profile.daodian_3
+            user.profile.save()
+            rv_dict['result'] = '保存成功'
+        except Exception, e:
+            err = traceback.format_exc()
+            rv_dict['result'] = '%s' % err
+
+        rv = json.dumps(rv_dict)
+        return HttpResponse(rv, content_type="application/json")
+
+    rv_dict['result'] = '不允许的操作'
+    rv = json.dumps(rv_dict)
+    return HttpResponse(rv, content_type="application/json")
 
 # init view
 def db_view(request, table_name):
