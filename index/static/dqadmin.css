@@ -51,6 +51,7 @@
     text-align: center;
 }
 
+
 /* daodian */
 .dqadmin-daodian-list {
     text-align:left;
@@ -59,4 +60,30 @@
 .dqadmin-daodian-list label p{
     text-align:left;
     font-size: 20px;
+}
+.daodian_file_tl p{
+    text-align:center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.daodian_file_it_tl p{
+    text-align:right;
+    font-size: 20px;
+    font-weight: bold;
+}
+.daodian_file_btn_con {
+    margin-top: 20px;
+}
+.dqadmin-report-ico-con {
+    height: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.dqadmin-report-ico-con a img{
+    position: relative;
+    height: 40px;
+}
+.dqadmin-report-ico-con a p{
+    font-size: 10px;
 }

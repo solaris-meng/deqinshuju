@@ -17,6 +17,59 @@
     </div>
 </div><!-- end container -->
 
+<!-- filter -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="mengf" action="/dqadmin/database/table" class="form-horizontal" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+                <div class="form-group">
+
+<!--
+                    <div class="row">
+                        <div class="col-md-3 dqadmin-config-it">
+                            <p>部门 :</p>
+                        </div>
+                        <div class="col-md-9 dqadmin-config-it2">
+                            <select class="form-control" name='bumen' id='bumen'>
+                                <option>所有部门</option>
+                                <option>新车部门</option>
+                                <option>二手车部门</option>
+                                <option>金融保险部门</option>
+                                <option>售后部门</option>
+                                <option>备件部门</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                    </div>
+-->
+
+                    <div class="row">
+                        <div class="col-md-3 dqadmin-config-it">
+                            <p>用户 :</p>
+                        </div>
+                        <div class="col-md-9 dqadmin-config-it2">
+                            <select class="form-control" name='username' id='username'>
+                                <option>{{ cur_user }}</option>
+                                {% for u in other_user %}
+                                    <option>{{ u }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 dqadmin-config-it">
+                        </div>
+                        <div class="col-md-9 dqadmin-config-it2">
+                            <button class="btn btn-primary" type="submit">查询</button>
+                        </div>
+                    </div>
+                </div><!-- end form-group -->
+            </form>
+        </div>
+    </div>
+</div>
+
 <div id='meng'></div>
 <div class="container-fuild">
     {% for it in all %}
@@ -138,9 +191,17 @@
 <script type="text/javascript">
 
 jQuery(document).ready(function() {
-    {% for u in users %}
-        $('#username').append('<option>{{ u }}</option>')
-    {% endfor %}
+    {% if result != 'success' %}
+        alert('{{ result }}');
+    {% endif %}
+    $('button').click(function(){
+        var username = $('#username').val();
+        if(username == '全部用户') {
+            username = 'all';
+        }
+        //alert(username);
+        window.location = "/dqadmin/excel/"+username;
+    });
 });
 
 $(':file').change(function(){

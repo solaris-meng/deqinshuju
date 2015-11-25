@@ -33,6 +33,7 @@
                     <th>第一轮数据提交进度</th>
                     <th>第二轮数据提交进度</th>
                     <th>第三数据提交进度</th>
+                    <th>经销商诊断报告</th>
                 </tr>
 
                 {% for u in users %}
@@ -41,23 +42,23 @@
                     <td>{{ u.dianming }}</td>
                     <td>
                         {% if u.daodian_1 == '100%' %}
-                        <button type="button" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp</button>
+                        <button type="button" class="btn btn-success">&nbsp&nbsp</button>
                         {% else %}
-                        <button type="button" class="btn btn-warning">&nbsp&nbsp&nbsp&nbsp</button>
+                        <button type="button" class="btn btn-warning">&nbsp&nbsp</button>
                         {% endif %}
                     </td>
                     <td>
                         {% if u.daodian_2 == '100%' %}
-                        <button type="button" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp</button>
+                        <button type="button" class="btn btn-success">&nbsp&nbsp</button>
                         {% else %}
-                        <button type="button" class="btn btn-warning">&nbsp&nbsp&nbsp&nbsp</button>
+                        <button type="button" class="btn btn-warning">&nbsp&nbsp</button>
                         {% endif %}
                     </td>
                     <td>
                         {% if u.daodian_3 == '100%' %}
-                        <button type="button" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp</button>
+                        <button type="button" class="btn btn-success">&nbsp&nbsp</button>
                         {% else %}
-                        <button type="button" class="btn btn-warning">&nbsp&nbsp&nbsp&nbsp</button>
+                        <button type="button" class="btn btn-warning">&nbsp&nbsp</button>
                         {% endif %}
                     </td>
                     <td>
@@ -80,6 +81,18 @@
                             {{ u.daodian_3 }}
                             </div>
                         </div>
+                    </td>
+                    <td>
+                <div class="row">
+                {% for j in u.reports %}
+                <div class="col-sm-3 dqadmin-report-ico-con">
+                    <a href="/{{ j.get_file_path }}">
+                        <img src="{% static 'pdf_logo_Fotor.jpg' %}">
+                        <p>{{ j.get_ico_tl }}</p>
+                    </a>
+                </div>
+                {% endfor %}
+                </div>
                     </td>
                 </tr>
                 {% endfor %}

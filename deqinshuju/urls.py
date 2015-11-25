@@ -49,8 +49,9 @@ urlpatterns = [
     url(r'^data_in_status/(?P<bu_men>[\w\W]+)$', data.views.data_in_status_view, name='data_in_status'),
 
     # dqadmin
-    url(r'^dqadmin/excel$', dqadmin.views.dq_excel_view, name='dq_excel'),
+    url(r'^dqadmin/excel/(?P<username>[\w\W]+)$', dqadmin.views.dq_excel_view, name='dq_excel'),
     url(r'^dqadmin/excel_user$', dqadmin.views.dq_excel_user_view, name='dq_excel_user'),
+    url(r'^dqadmin/report_in/(?P<customername>[\w\W]+)$', dqadmin.views.dq_report_in_view, name='dq_report_in'),
     url(r'^dqadmin/daodian$', dqadmin.views.dq_daodian_view, name='dq_daodian'),
     url(r'^dqadmin/daodian_company$', dqadmin.views.dq_daodian_company_view, name='dq_daodian_company'),
     url(r'^dqadmin/daodian_handler/(?P<username>[\w\W]+)$', dqadmin.views.dq_daodian_handler, name='dq_daodian_handler'),
