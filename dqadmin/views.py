@@ -20,7 +20,16 @@ from job.models import Job
 
 # xinche table
 from data.models import *
+from .models import ReportFile
+from uuid import uuid4
 #from data.models import UploadFile
+
+def get_admins():
+    admins = []
+    admins.append(User.objects.get(username='admin'))
+    admins.append(User.objects.get(username='coadmin'))
+    admins.append(User.objects.get(username='dqadmin'))
+    return admins
 
 # Create your views here.
 def job_in_process(request):
@@ -35,7 +44,7 @@ def job_in_process(request):
     context = RequestContext(request, ctx)
     return HttpResponse(template.render(context))
 
-def dq_excel_view(request):
+def dq_excel_view(request, username):
     ctx={}
     if not request.user.is_authenticated():
         ctx['result'] = 'not authenticated'
@@ -44,7 +53,10 @@ def dq_excel_view(request):
         return HttpResponse(template.render(context))
 
     # get all users
-    users = User.objects.all()
+    if username == 'all':
+        users = User.objects.all()
+    else:
+        users = User.objects.filter(username=username)
     admin = User.objects.get(username='admin')
 
     user_result = []
@@ -69,6 +81,21 @@ def dq_excel_view(request):
             it['file_qita'] = UploadFile.objects.filter(user=user, bu_men='其他数据')
             user_result.append(it)
     ctx['all'] = user_result
+    if user_result:
+        ctx['result'] = 'success'
+    else:
+        ctx['result'] = '没有上传记录'
+
+    if username == 'all':
+        ctx['cur_user'] = '全部用户'
+        other_user_name = []
+    else:
+        ctx['cur_user'] = username
+        other_user_name = ['全部用户']
+    users = User.objects.exclude(username=username)
+    for u in users:
+        other_user_name.append(u.username)
+    ctx['other_user'] = other_user_name
 
     template = loader.get_template('dqadmin/dq_excel.html')
     ctx['uploadfile'] = UploadFile.objects.all()
@@ -108,7 +135,7 @@ def dq_excel_user_view(request):
         user_result.append(it)
     ctx['all'] = user_result
 
-    template = loader.get_template('dqadmin/dq_excel.html')
+    template = loader.get_template('dqadmin/dq_excel_user.html')
     #ctx['uploadfile'] = UploadFile.objects.all()
     context = RequestContext(request, ctx)
     return HttpResponse(template.render(context))
@@ -124,11 +151,11 @@ def dq_daodian_view(request):
 
     # get all users
     users = User.objects.all()
-    admin = User.objects.get(username='admin')
+    admins = get_admins()
 
     user_result = []
     for user in users:
-        if user == admin:
+        if user in admins:
             continue
         it = {}
         it['username'] = user.username
@@ -153,11 +180,11 @@ def dq_daodian_company_view(request):
 
     # get all users
     users = User.objects.all()
-    admin = User.objects.get(username='admin')
+    admins = get_admins()
 
     user_result = []
     for user in users:
-        if user == admin:
+        if user in admins:
             continue
         it = {}
         it['username'] = user.username
@@ -166,6 +193,7 @@ def dq_daodian_company_view(request):
         it['daodian_1'] = user.profile.daodian_1
         it['daodian_2'] = user.profile.daodian_2
         it['daodian_3'] = user.profile.daodian_3
+        it['reports'] = ReportFile.objects.filter(customer_name=user.username)
         user_result.append(it)
     ctx['users'] = user_result
     template = loader.get_template('dqadmin/dq_daodian_company.html')
@@ -347,3 +375,67 @@ def db_compare_view(request):
     context = RequestContext(request, ctx)
     template = loader.get_template('dqadmin/db_compare_view.html')
     return HttpResponse(template.render(context))
+
+def dq_report_in_view(request, customername):
+    if request.method == 'POST':
+        try:
+            rv_dic = {}
+
+            # For debug
+            print request.POST
+            print request.FILES
+            #flog.info('Upload File, User-%s, Job_id:%s File:' % (request.user.username, job_id))
+            #flog.info('Get file 1')
+            #flog.info(request.FILES)
+
+            #print 'Job-Bumen: %s' % job.job_bu_men
+
+            # Step 2, save the uploaded file to fs
+            #
+            # Save the file to Models directly, not use Forms.
+            #   1. create model
+            #   2. init username, last_modified, bu_men, file_type
+            #   3. save file to fs
+            new_report_file = ReportFile(uploadfile = request.FILES['uploadfile'],
+                                user=request.user,
+                                customer_name=customername,
+                                upload_id=uuid4().hex,
+                                )
+            re = new_report_file.init_info()
+            if re != 'success':
+                rv_dic['result'] = 'Err: fail to upload'
+                rv = json.dumps(rv_dic)
+                return HttpResponse(rv, content_type="application/json")
+            new_report_file.save()
+
+            # Step 3, get the file abs path on FS, then read it out via xlrd
+            # Dump the file to 'TableModel'
+            #fpath = new_report_file.get_abs()
+
+            # Step 4, parse the file
+            # Note: the 1:1 relation
+            #   Job - xls file - form
+            # For now, we cover the tables below:
+            #   N1-TableXincheZhantingXiaoshou
+            #   N2-TableXincheDiaoxiaoXiaoshou
+            #   N3-To do
+            #   N4-TableXincheXiaoshouXiansuo
+            #   N5-To do
+            #   N6-To do
+            #   N7-To do
+            # if Bu_men is xin_che
+            rv_dic = {'result':'上传成功'}
+
+            #xml = request.FILES['uploadfile']
+            #print xml
+            #print rv['result']
+            #with open('/tmp/tmp.txt', 'wb+') as destination:
+            #    for chunk in fd.chunks():
+            #        destination.write(chunk)
+
+            rv = json.dumps(rv_dic)
+            return HttpResponse(rv, content_type="application/json")
+        except Exception, e:
+            err = traceback.format_exc()
+            print err
+            rv_dic['result'] = 'Err: %s,%s' % (err, request.FILES)
