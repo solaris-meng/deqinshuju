@@ -26,34 +26,32 @@ html, body {
     background-color: rgb(237, 239, 237);
     background-color: rgb(111, 84, 153);
     background-color: rgba(68,68,68,1);
-    border-color: rgba(68,68,68,1);
 */
     border: 0px;
     border-radius: 0px;
 }
+/* brand */
 .nav-index .navbar-brand{
-    color: white;
+    color: rgb(0,39,118);
+}
+.nav-index .navbar-brand span{
+    color: #81bb00;
 }
 .nav-index .navbar-brand:hover{
-    color: rgba(255,255,255,0.5);
+    color: rgba(0,39,118,0.5);
 }
 
-/*
-.nav-index .index-nav-it .dropdown {
-    background-color: rgba(68,68,68,1);
-}
+/* nav item */
 .nav-index .index-nav-it .dropdown .dropdown-menu li a:hover{
-    background-color: rgba(68,68,68,1);
-    color: rgba(255,255,255,0.5);
+    color: rgba(0,161,222,0.5);
 }
-*/
 .nav-index .index-nav-it li a {
-    font-size: 25px;
-    color: white;
+    font-size: 20px;
+    color: rgba(0,161,222,1);
 }
 .nav-index .index-nav-it li a:hover {
-    font-size: 25px;
-    color: rgba(255,255,255,0.5);
+    font-size: 20px;
+    color: rgba(0,161,222,1);
 }
 .nav-brand {
     font-size: 30px;
