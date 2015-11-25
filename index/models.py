@@ -16,6 +16,6 @@ class UserProfile(models.Model):
     dizhi = models.CharField(max_length=100)
     dianhua = models.CharField(max_length=100)
 
-    daodian_1 = models.CharField(max_length=32, default='tmp')
-    daodian_2 = models.CharField(max_length=32, default='tmp')
-    daodian_3 = models.CharField(max_length=32, default='tmp')
+    daodian_1 = models.CharField(max_length=32, default='0%')
+    daodian_2 = models.CharField(max_length=32, default='0%')
+    daodian_3 = models.CharField(max_length=32, default='0%')
